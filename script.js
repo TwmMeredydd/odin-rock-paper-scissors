@@ -1,19 +1,21 @@
 const options = ["scissors", "paper", "rock"];
+let computerScore = 0, playerScore = 0, done = false;
 
 function genRandom(start, end) {
     return Math.floor(Math.random() * (end-start) + start);
 }
 
 function getComputerChoice() {
-    return options[genRandom(0, options.length-1)]
+    return options[genRandom(0, options.length)]
 }
 
 function capitaliseFirstLetter(msg) {
     return msg[0].toUpperCase() + msg.substring(1).toLowerCase();
 }
 
-function playRound(computer, player) {
-    //Determine what computer would win against
+function playRound(player) {
+    //Determine what computer would win againster
+    let computer = getComputerChoice();
     let beats = options[(options.findIndex(i => i == computer.toLowerCase()) + 1) % options.length];
 
     switch (player.toLowerCase()) {
@@ -27,30 +29,33 @@ function playRound(computer, player) {
 }
 
 function addLogEntry(msg) {
-    li = document.createElement("li");
-    li.innerHTML = msg;
-    document.getElementById("log").appendChild(li);
+    entry = document.createElement("li");
+    entry.innerText = msg;
+    document.getElementById("log").appendChild(entry);
 }
 
-function game() {
-    let computer = 0, player = 0;
+function processRound(choice) {
+    if (done) return;
 
-    document.getElementById("log").innerHTML = "";
+    let round = playRound(choice);
+    addLogEntry(round);
 
-    for (let i = 0; i < 5; i++) {
-        playerChoice = "";
-        do {
-            playerChoice = prompt("Rock, Paper or Scissors?")
-        } while (!options.includes(playerChoice.toLowerCase()))
-
-        let round = playRound(getComputerChoice(), playerChoice);
-        addLogEntry(round);
-
-        if (round.startsWith("You win!")) {
-            player++;
-        } else if (round.startsWith("You lose!")) {
-            computer++;
-        }
+    if (round.startsWith("You win!")) {
+        playerScore++;
+    } else if (round.startsWith("You lose!")) {
+        computerScore++;
     }
-    addLogEntry(`Computer: ${computer}, Player: ${player}`);
+
+    document.getElementById("player-score").innerText = playerScore;
+    document.getElementById("computer-score").innerText = computerScore;
+
+    if (computerScore >= 5) {
+        document.getElementById("result").innerText = "The Computer Wins!";
+        done = true;
+    } else if (playerScore >= 5) {
+        document.getElementById("result").innerText = "You Win!";
+        done = true;
+    }
 }
+
+document.querySelector("#selection").childNodes.forEach(e => e.addEventListener("click", () => processRound(e.id)));

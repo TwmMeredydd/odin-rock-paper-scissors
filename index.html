@@ -3,11 +3,26 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="./style.css">
+        <script src="./script.js" defer></script>
         <title>Rock Paper Scissors</title>
     </head>
     <body>
-        <script src="./script.js"></script>
-        <button onclick="game()">Play round</button>
-        <ul id="log"></ul>
+        <div id="scores">
+            <div>
+                Computer score: <span id="computer-score">0</span>
+            </div>
+            <div>
+                Player score: <span id="player-score">0</span>
+            </div>
+        </div>
+        <div id="result"></div>
+        <div id="selection">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <ul id="log">
+
+        </ul>
     </body>
 </html>

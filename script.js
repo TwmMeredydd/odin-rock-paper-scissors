@@ -26,8 +26,17 @@ function playRound(computer, player) {
     }
 }
 
+function addLogEntry(msg) {
+    li = document.createElement("li");
+    li.innerHTML = msg;
+    document.getElementById("log").appendChild(li);
+}
+
 function game() {
     let computer = 0, player = 0;
+
+    document.getElementById("log").innerHTML = "";
+
     for (let i = 0; i < 5; i++) {
         playerChoice = "";
         do {
@@ -35,7 +44,7 @@ function game() {
         } while (!options.includes(playerChoice.toLowerCase()))
 
         let round = playRound(getComputerChoice(), playerChoice);
-        console.log(round)
+        addLogEntry(round);
 
         if (round.startsWith("You win!")) {
             player++;
@@ -43,7 +52,5 @@ function game() {
             computer++;
         }
     }
-    console.log(`Computer: ${computer}, Player: ${player}`)
+    addLogEntry(`Computer: ${computer}, Player: ${player}`);
 }
-
-game();
